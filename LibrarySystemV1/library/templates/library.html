@@ -1,0 +1,73 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/701c42f812.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>Library</title>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'home' %}" class="active"><i class="fa fa-fw fa-home"></i> Home</a>
+        <a href="{% url 'library' %}" ><i class="fa-solid fa-book"></i> Library</a>
+        <a href="{% url 'return' %}" ><i class="fa-solid fa-hand"></i> Return</a>
+
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="logout" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+        </form>
+    </div>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <h1>Library</h1>
+
+    <form method="get" action="{% url 'library' %}">
+        <label for="category">Filter by category:</label>
+        <select name="category" id="category" onchange="this.form.submit()">
+            <option value="">All</option>
+            {% for value, label in categories %}
+                <option value="{{ value }}" {% if request.GET.category == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <div class="container">
+        {% for book in books %}
+        <div class="book-container">
+            {% if book.cover %}
+                <img src="{{ book.cover.url }}" alt="Cover image of {{ book.title }}">
+            {% else %}
+                <img src="{% static 'images/placeholder-image.jpg' %}" alt="Placeholder image of {{ book.title }}">
+            {% endif %}
+            <p class="title">{{book.title}}</p>
+            <p class="author">{{book.author}}</p>
+            
+            <form method="post" action="{% url 'borrow_book' book.isbn %}">
+                {% csrf_token %}
+
+                {% if book.isbn in borrowed_isbns %}
+                    <button type="submit" disabled>BORROWED</button>
+                {% elif book.available_copies == 0 %}
+                    <button type="submit" disabled>OUT OF STOCK</button>
+                {% else %}
+                    <button type="submit">BORROW</button>
+                {% endif %}
+            </form>
+        </div>        
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,198 @@
+/* Variables for the colour palette */
+
+:root {
+    --background:#F7FFF7;
+    --text:#000;
+    --navbar:#232842;
+    --hover: #4D5993;
+    --container-grey: #e5e5e5;
+    --book-container-grey: #c9c9c9;
+}
+
+body {
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    width: 100%;
+    max-width: 1470px;
+    margin: 0 auto;
+    overflow-x: hidden;
+    text-align: center;
+}
+
+/* CSS for registration and login (very simple) */
+
+.auth-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--container-grey);
+}
+
+.auth-container h1 {
+    text-align: center;
+    margin: 0px;
+    margin-left: 2.5%;
+}
+
+/* CSS for the main app */
+
+.navbar {
+    width: 100%;
+    background-color: var(--navbar);
+    overflow: auto;
+    text-align: center
+}
+
+.navbar a, .logout {
+    font-weight: bold;
+    float: left;
+    color: #FFF;
+    padding: .5em;
+    margin: 0.5em;
+    text-decoration: none;
+    font-size: 22px;
+    border-radius: 0.4em;
+    background-color: var(--navbar);
+    border: none;
+    align-items: center;
+}
+
+.logout, .navbar p {
+    color: #FFF;
+    float: right;
+    font-size: 23px;
+}
+.navbar p {
+    font-size: 8px;
+    height: 100%;
+}
+
+.navbar a:hover, .logout:hover {
+    background-color: var(--hover);
+}
+
+button {
+    cursor: pointer;
+}
+
+h1 {
+    text-align: left;
+    margin: 0px;
+    margin-left: 2.5%;
+}
+
+div.bottom-container {
+    display: flex;
+    margin: auto;
+    width: 95%;
+    height: 350px;
+    justify-content: center;
+}
+
+div.container {
+    background-color: var(--container-grey);
+    border-radius: 16px;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 95%;
+    height: auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+
+div.stats-container {
+    text-align: center;
+    background-color: var(--container-grey);
+    border-radius: 16px;
+    height: 100%;
+    width: 30%;
+    margin: 1%;
+}
+
+div.history-container {
+    background-color: var(--container-grey);
+    border-radius: 16px;
+    height: 100%;
+    width: 40%;
+    margin: 10px;
+    text-align: left;
+    margin: 1%;
+}
+
+div.scrollable {
+    height: 80%;
+    width: 98%;
+    overflow-y: scroll;
+}
+
+.scrollable p {
+    border-radius: 6px;
+    background-color: var(--book-container-grey);
+}
+
+div.book-container {
+    background-color: var(--book-container-grey);
+    padding: 8px;
+    margin: 8px;
+    height: 90%;
+    width: 200px;
+    border-radius: 16px;
+    position: relative;
+}
+
+img {
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+div.book-container img{
+    display: block;
+    height: 280px;
+    width: 100%;
+}
+
+div.book-container p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    text-align: left;
+}
+
+.title {
+    font-weight: 600;
+    font-size: 1em;
+}
+
+.author {
+    color: #6e6e6e;
+    font-size: 0.8em;
+}
+
+.return-date {
+    font-style: italic;
+    color: #535353;
+}
+
+div.book-container button {
+    width: 100%;
+    height: 40px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 8px;
+    font-size: large;
+    font-weight: bolder;
+}
+
+.welcome {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+hr {
+    margin: 12px;
+}

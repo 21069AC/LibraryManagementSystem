@@ -1,0 +1,116 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/701c42f812.js" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>Home</title>
+
+    <style>
+        .progress-background {
+            background-color: var(--book-container-grey);
+            width: 95%;
+            margin: auto;
+            height: 36px;
+            border-radius: 8px;
+        }
+
+        .progress-bar {
+            background-color: #9f9f9f;
+            height: 100%;
+            border-radius: 8px;
+            width: {{ borrowed_percentage }}%;
+            /* A visual error if the Django extension is not enabled */
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'home' %}" class="active"><i class="fa fa-fw fa-home"></i> Home</a>
+        <a href="{% url 'library' %}" ><i class="fa-solid fa-book"></i> Library</a>
+        <a href="{% url 'return' %}" ><i class="fa-solid fa-hand"></i> Return</a>
+        
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="logout" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+        </form>
+    </div>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <p class="welcome">Welcome, {{user.username}}!</p>
+    <hr>
+
+    {% if borrowed_amount == 0 %}
+        <h1>No books borrowed</h1>
+    {% else %}
+        <h1>Borrowed Books</h1>
+        <div class="container">
+            {% for record in borrowed_books %}
+                {% if not record.returned %}
+                    <div class="book-container">
+                        {% if record.book.cover %}
+                            <img src="{{ record.book.cover.url }}" alt="Cover image of {{ record.book.title }}">
+                        {% else %}
+                            <img src="{% static 'images/placeholder-image.jpg' %}" alt="Placeholder image of {{ record.book.title }}">
+                        {% endif %}
+
+                        <p class="title">{{record.book.title}} ({{record.book.year}})</p>
+                        <p class="author">{{record.book.author}}</p>
+                        <p class="return-date">DUE: {{record.date_to_return|date:"d/m/y"}}
+                            {% if record.is_overdue %}
+                                OVERDUE
+                            {% endif %}
+                        </p>
+                    </div>  
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="bottom-container">
+        <div class="stats-container" >
+            <h1>Stats</h1>
+            <hr>
+            <p>Borrowed: {{ borrowed_amount }}/6</p>
+            <div class="progress-background">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+
+        <div class="history-container">
+            <h1>History</h1>
+            <hr>
+            <div class="scrollable">
+                {% for record in borrow_records %}
+                    {% if record.returned %}
+                        <p>At {{ record.date_returned }}, you <b>returned</b> {{ record.book.title }}</p>
+                    {% else %}
+                        <p>At {{ record.borrow_date }}, you <b>borrowed</b> {{ record.book.title }}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+        </div>
+    </div>
+
+    {% if user.is_staff %}
+        <p>Logged in as: Admin</p>
+    {% else %}
+        <p>Logged in as: Student</p>
+        <p>Your StudentID: {{user.studentprofile.student_id}}</p>
+    {% endif %}
+</body>
+</html>
