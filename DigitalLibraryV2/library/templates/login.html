@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/701c42f812.js" crossorigin="anonymous"></script>
+    <script src="{% static 'js/auto_dismiss.js' %}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="auth-container">
+        <h1>Login</h1>
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{next}}">
+
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+
+            <button class="auth-button" type="submit">Login</button>
+        </form>
+
+        <p>Don't have an account? <a href="{% url 'register' %}">Register Here!</a></p>
+    </div>    
+
+    <div class="alert-box">
+        {% if error %}
+            <div class="alert error">
+                <div class="alert-type">
+                    ERROR
+                </div>
+
+                <div class="alert-text">
+                    {{ error }}
+                </div>
+
+                <button type="button" class="dismiss" onclick="this.parentElement.style.display='none'">&times;</button>
+            </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>

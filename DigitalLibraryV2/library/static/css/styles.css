@@ -1,0 +1,312 @@
+/* Variables for the colour palette */
+
+:root {
+    --background:#FAF2F3;
+    --text:#000;
+    --navbar:#1A4A73;
+    --hover: #2A74B5;
+    --container-grey: #D8E3F2;
+    --book-container-grey: #99BCE0;
+}
+
+body {
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    width: 100%;
+    max-width: 1470px;
+    margin: 0 auto;
+    overflow-x: hidden;
+    text-align: center;
+}
+
+/* CSS for registration and login (very simple) */
+
+.auth-container {
+    background-color: var(--container-grey);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 12px;
+    width: 288px;
+    text-align: center;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.auth-container h1 {
+    text-align: center;
+    font-size: 36px;
+    margin: 10px;
+}
+
+.auth-container label {
+    text-align: left;
+    font-size: 16px;
+    display: block;
+}
+
+.auth-container input {
+    background-color: var(--book-container-grey);
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    height: 32px;
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.auth-container button {
+    width: 60%;
+}
+
+/* CSS for the main app */
+
+.navbar {
+    width: 100%;
+    background-color: var(--navbar);
+    overflow: auto;
+    text-align: center
+}
+
+.navbar a, .logout {
+    font-weight: bold;
+    float: left;
+    color: #FFF;
+    padding: .5em;
+    margin: 0.5em;
+    text-decoration: none;
+    font-size: 22px;
+    border-radius: 0.4em;
+    background-color: var(--navbar);
+    border: none;
+    align-items: center;
+}
+
+.logout, .navbar p {
+    color: #FFF;
+    float: right;
+    font-size: 23px;
+}
+.navbar p {
+    font-size: 8px;
+    height: 100%;
+}
+
+.navbar a:hover, .logout:hover {
+    background-color: var(--hover);
+}
+
+button {
+    cursor: pointer;
+}
+
+h1 {
+    text-align: left;
+    margin: 0px;
+    margin-left: 2.5%;
+}
+
+div.bottom-container {
+    display: flex;
+    margin: auto;
+    width: 95%;
+    height: 350px;
+    justify-content: center;
+}
+
+div.container {
+    background-color: var(--container-grey);
+    border-radius: 16px;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 95%;
+    height: auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+
+div.stats-container {
+    text-align: center;
+    background-color: var(--container-grey);
+    border-radius: 16px;
+    height: 100%;
+    width: 30%;
+    margin: 1%;
+}
+
+div.history-container {
+    background-color: var(--container-grey);
+    border-radius: 16px;
+    height: 100%;
+    width: 40%;
+    margin: 10px;
+    margin: 1%;
+}
+
+div.scrollable {
+    height: 80%;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.scrollable p {
+    border-radius: 6px;
+    background-color: var(--book-container-grey);
+    margin: 10px;
+}
+
+div.book-container {
+    background-color: var(--book-container-grey);
+    padding: 8px;
+    margin: 8px;
+    height: 90%;
+    width: 200px;
+    border-radius: 16px;
+    position: relative;
+}
+
+img {
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+div.book-container img{
+    display: block;
+    height: 280px;
+    width: 100%;
+}
+
+div.book-container p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    text-align: left;
+}
+
+.title {
+    font-weight: 600;
+    font-size: 1em;
+}
+
+.author {
+    color: #4b4b4b;
+    font-size: 0.8em;
+}
+
+.return-date {
+    font-style: italic;
+    color: var(--hover);
+}
+
+div.book-container button, .auth-button {
+    background-color: var(--background);
+    width: 100%;
+    height: 40px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 8px;
+    font-size: large;
+    font-weight: bold;
+}
+
+div.book-container button:hover, .auth-button:hover {
+    background-color: var(--hover);
+    color: var(--background);
+}
+
+div.book-container, button {
+    transition-duration: 0.2s;
+}
+
+div.book-container:hover {
+    box-shadow: 0 0 0 0 var(--hover),0 0px 20px 0 var(--text);
+
+}
+
+.welcome {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 12px;
+}
+
+hr {
+    margin: 12px;
+}
+
+.alert-box {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    max-width: 25%;
+    min-width: 20%;
+    gap: 12px;
+}
+
+.alert {
+    position: relative;
+    padding: 12px 36px 12px 12px;
+    border-radius: 8px;
+    color: var(--background);
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.275);
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+}
+
+.alert-type {
+    width: 20%;
+    height: 100%;
+    font-weight: bold;
+    text-align: left;
+}
+
+.alert-text {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+.alert .dismiss {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.alert.error {
+    background-color: rgb(255, 87, 87);
+}
+
+.alert.success {
+    background-color: rgb(0, 188, 66);
+}
+
+.alert.warning {
+    background-color: rgb(255, 223, 40);
+}
+
+.messages {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
