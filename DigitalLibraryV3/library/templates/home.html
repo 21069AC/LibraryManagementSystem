@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block styles %}
+    <style>
+        .progress-background {
+            background-color: var(--book-container-blue);
+            width: 95%;
+            margin: auto;
+            height: 36px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            background-color: var(--hover);
+            height: 100%;
+            border-radius: 8px;
+            width: {{ borrowed_percentage }}%;
+            /* Visual error if the Django extension is not enabled */
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <p class="welcome">Welcome, {{user.username}}!</p>
+    <hr>
+    <!-- BORROWED BOOKS -->
+    {% if borrowed_amount == 0 %}
+        <h1>No books borrowed</h1>
+        <div class="container">
+            <!-- PLACEHOLDER BOOK -->
+            <div class="book-container">
+                <img src="{% static 'images/placeholder-image.jpg' %}" alt="Placeholder image of {{ record.book.title }}">
+                <p class="title">Title (Year)</p>
+                <p class="author">Author</p>
+                <p class="return-date">Date to return</p>
+            </div>
+        </div>
+    {% else %}
+        <h1>Borrowed Books</h1>
+        <div class="container">
+            {% for record in borrowed_books %}
+                {% if not record.returned %}
+                    <div class="book-container">
+                        {% if record.book.cover %}
+                            <img src="{{ record.book.cover.url }}" alt="Cover image of {{ record.book.title }}">
+                        {% else %}
+                            <img src="{% static 'images/placeholder-image.jpg' %}" alt="Placeholder image of {{ record.book.title }}">
+                        {% endif %}
+                        <p class="title">{{record.book.title}} ({{record.book.year}})</p>
+                        <p class="author">{{record.book.author}}</p>
+                        <p class="return-date">DUE: {{record.date_to_return|date:"d/m/y"}}
+                            {% if record.is_overdue %}
+                                <span class="overdue">OVERDUE</span>
+                            {% else %}
+                                ({{ record.days_to_return }} days)
+                            {% endif %}
+                        </p>
+                    </div>  
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <!-- BOTTOM CONTAINER -->
+    <div class="bottom-container">
+
+        <!-- STATS CONTAINER -->
+        <div class="stats-container" >
+            <h1>Stats</h1>
+            <hr>
+            <p>Borrowed: {{ borrowed_amount }}/6</p>
+            <div class="progress-background">
+                <div class="progress-bar"></div>
+            </div>
+
+            <p>Books in Library: {{ total_books }}</p>
+            <p>Total Returned: {{ returned_books }}</p>
+
+            <p>
+                {% if favourite_category %}
+                    Favourite Category: {{ favourite_category }}
+                {% else %}
+                    Favourite Category: None
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- HISTORY CONTAINER -->
+        <div class="history-container">
+            <h1>History</h1>
+            <hr>
+            <div class="scrollable">
+                {% for record in borrow_records %}
+                    <div class="history-record">
+                        {% if record.book.cover %}
+                            <img class="history-cover" src="{{ record.book.cover.url }}" alt="Cover image of {{ record.book.title }}">
+                        {% else %}
+                            <img class="history-cover" src="{% static 'images/placeholder-image.jpg' %}" alt="Placeholder image of {{ record.book.title }}">
+                        {% endif %}
+
+                        {% if record.returned %}
+                            <p>You <b>RETURNED</b> {{ record.book.title }} by <i>{{ record.book.author }}</i></p>
+                            <p>DATE: {{ record.date_returned }}</p>
+                        {% else %}
+                            <p>You <b>BORROWED</b> {{ record.book.title }} by <i>{{ record.book.author }}</i></p>
+                            <p>DATE: {{ record.borrow_date }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Return{% endblock %}
+
+{% block content %}
+    <h1>Return Books</h1>
+    <hr>
+    
+    <!-- RETURN -->
+    <div class="container">
+        {% for record in borrow_records %}
+        {% if not record.returned %}
+        <div class="book-container">
+            {% if record.book.cover %}
+                <img src="{{ record.book.cover.url }}" alt="Cover image of {{ record.book.title }}">
+            {% else %}
+                <img src="{% static 'images/placeholder-image.jpg' %}" alt="Placeholder image of {{ record.book.title }}">
+            {% endif %}
+
+            <p class="title">{{record.book.title}}</p>
+            <p class="author">{{record.book.author}}</p>
+            <p class="return-date">DUE: {{record.date_to_return|date:"d/m/y"}}
+                {% if record.is_overdue %}
+                    <span class="overdue">OVERDUE</span>
+                {% else %}
+                    ({{ record.days_to_return }} days)
+                {% endif %}
+            </p>
+
+            <form method="post" action="{% url 'return_book' record.id %}">
+                {% csrf_token %}
+                <button type="submit">RETURN</button>
+            </form>
+        </div>  
+        {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block alerts %}
+    <div class="alert-box">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    <div class="alert-type">
+                        {{ message.tags|upper }}
+                    </div>
+
+                    <div class="alert-text">
+                        {{ message }}
+                    </div>
+
+                    <button class="dismiss" onclick="this.parentElement.remove()">&times;</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}
