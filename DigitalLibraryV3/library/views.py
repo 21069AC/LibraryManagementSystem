@@ -82,7 +82,6 @@ def login_view(request):
             login(request, user)
             return redirect('home')
         else:
-            messages.error(request)
             error_message = "Invalid Credentials. Please retry your username or password."
     return render(request, 'login.html', {"error": error_message, "hide_navbar": True})
 
@@ -203,4 +202,5 @@ def return_book(request, record_id):
         messages.success(request, f'"{book.title}" was successfully returned!')
     except BorrowRecord.DoesNotExist:
         messages.error(request, "BorrowRecord does not exist")
+
     return redirect('return')
