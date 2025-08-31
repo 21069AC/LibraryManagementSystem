@@ -23,7 +23,7 @@ Any browser should be compatible with this web application. So use what you regu
 
 # How do I run the application?
 
-1. Download the ZIP file containing all of the versions
+1. Download the ZIP file containing all of the versions and extract it
 2. Navigate and open the latest version of DigitalLibrary (Version 3) in an IDE such as VSCode
 3. In your terminal, create a virtual environment:
 
@@ -46,7 +46,7 @@ source venv/bin/activate
 5. Install the dependencies
 
 ```
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 6. Run the server
