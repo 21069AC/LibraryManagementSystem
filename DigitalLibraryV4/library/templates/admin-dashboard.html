@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block styles %}
+    <style>
+        div.container {
+            width: 100%;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+        }
+
+        div.book-container {
+            width: 117.6px;
+            padding: 6px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            margin-left: 4px;
+            margin-right: 4px;
+        }
+
+        div.book-container img {
+            height: 168px;
+        }
+
+        .title {
+            font-size: 0.8em;
+        }
+
+        .author {
+            font-size: 0.6em;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h1>Admin Dashboard</h1>
+    <hr>
+
+    <!-- ADMIN DASHBOARD -->
+    <div class="dashboard">
+        <div class="left-container">
+            <div class="admin-stats">
+                <h1>More Stats</h1>
+                <hr>
+                <p>Registered Users: {{ total_users }}</p>
+                <p>Books: {{ total_books }}</p>
+                <p>Borrowed: {{ total_borrowed_books }}</p>
+                <p>Overdue: {{ overdue_count }}</p>
+            </div>
+
+            <a class="admin-link" href="/admin" >Django Admin Site</a>
+        </div>
+
+        <div class="users">
+            {% for user in users %}
+                <div class="container">
+                    <div class="profile">
+                        <i class="fa-solid fa-circle-user"></i>
+                        <p class="username">{{ user.username }}</p>
+                        <p class="join-date">Joined: <br>{{ user.date_joined|date:"d/m/y"}}</p>
+                    </div>
+
+                    {% for record in user.borrowrecord_set.all %}
+                        <div class="book-container">
+                            {% if record.book.cover %}
+                                <img src="{{ record.book.cover.url }}" alt="Cover image of {{ record.book.title }}">
+                            {% else %}
+                                <img src="{% static 'images/placeholder-image.jpg' %}" alt="Placeholder image of {{ record.book.title }}">
+                            {% endif %}
+
+                            <p class="title">{{record.book.title}}</p>
+                            <p class="author">{{record.book.author}}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

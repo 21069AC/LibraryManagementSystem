@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Library{% endblock %}
+
+{% block content %}
+
+    <h1>Library</h1>
+    <hr>
+    <!-- LIBRARY FUNCTIONS -->
+    <div class="library-functions">
+        <!-- FILTER -->
+        <form class="filter-form" method="get" action="{% url 'library' %}">
+            <label for="category">Category:</label>
+            <select name="category" id="category" onchange="this.form.submit()">
+                <option value="">All</option>
+                {% for value, label in categories %}
+                    <option value="{{ value }}" {% if request.GET.category == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </form>
+
+        <!-- SEARCH -->
+        <form class="search-form" method="GET" action="{% url 'library' %}">
+            <input type="text" name="q" placeholder="Search books..." value="{{ request.GET.q }}">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- LIBRARY -->
+    <div class="container">
+        {% for book in books %}
+        <div class="book-container">
+            {% if book.cover %}
+                <img src="{{ book.cover.url }}" alt="Cover image of {{ book.title }}">
+            {% else %}
+                <img src="{% static 'images/placeholder-image.jpg' %}" alt="Placeholder image of {{ book.title }}">
+            {% endif %}
+            <p class="title">{{book.title}}</p>
+            <p class="author">{{book.author}}</p>
+            
+            <form method="post" action="{% url 'borrow_book' book.isbn %}">
+                {% csrf_token %}
+
+                {% if book.isbn in borrowed_isbns %}
+                    <button type="submit" disabled>BORROWED</button>
+                {% elif book.available_copies == 0 %}
+                    <button type="submit" disabled>OUT OF STOCK</button>
+                {% else %}
+                    <button type="submit">BORROW</button>
+                {% endif %}
+            </form>
+        </div>        
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block alerts %}
+    <div class="alert-box">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    <div class="alert-type">
+                        {{ message.tags|upper }}
+                    </div>
+
+                    <div class="alert-text">
+                        {{ message }}
+                    </div>
+
+                    <button class="dismiss" onclick="this.parentElement.remove()">&times;</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    
+    <script src="https://kit.fontawesome.com/701c42f812.js" crossorigin="anonymous"></script>
+    <script src="{% static 'js/auto_dismiss.js' %}"></script>
+    <script src="{% static 'js/background_anim.js' %}" defer></script>
+    <script src="{% static 'js/theme_switch.js' %}" defer></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.png' %}">
+
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    {% if not hide_navbar %}
+        <!-- NAVBAR -->
+        <div class="navbar">
+            <a href="{% url 'home' %}" class="active"><i class="fa fa-fw fa-home"></i> Home</a>
+            <a href="{% url 'library' %}" ><i class="fa-solid fa-book"></i> Library</a>
+            <a href="{% url 'return' %}" ><i class="fa-solid fa-hand"></i> Return</a>
+
+            {% if user.is_staff %}
+                <a href="{% url 'addbook' %}" ><i class="fa-solid fa-plus"></i> Add Book</a>
+                <a href="{% url 'admin-dashboard' %}" ><i class="fa-solid fa-user-tie"></i> Dashboard</a>
+            {% endif %}
+
+            <button id="theme-switch">
+                <i class="fa-solid fa-moon"></i>
+                <i class="fa-solid fa-sun"></i>
+            </button>
+
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button class="logout" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+            </form>
+        </div>
+    {% else %}
+        <style>
+            body {
+                overflow: hidden;
+            }
+        </style>
+
+        <button id="theme-switch">
+            <i class="fa-solid fa-moon"></i>
+            <i class="fa-solid fa-sun"></i>
+        </button>
+    {% endif %}
+
+    <!-- MAIN CONTENT -->
+    {% block content %}{% endblock %}
+
+    <!-- ALERTS -->
+    {% block alerts %}{% endblock %}
+</body>
+</html>
