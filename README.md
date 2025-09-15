@@ -24,7 +24,7 @@ Any browser should be compatible with this web application. So use what you regu
 # How do I run the application?
 
 1. Download the ZIP file containing all of the versions and extract it
-2. Navigate and open the latest version of DigitalLibrary (Version 3) in an IDE such as VSCode
+2. Navigate and open the latest version of DigitalLibrary (Version 4) in an IDE such as VSCode
 3. In your terminal, create a virtual environment:
 
 ```
@@ -68,7 +68,8 @@ https://www.w3schools.com/python/python_virtualenv.asp
 
 When the application has started running, register a student account.
 
-OR, login as an admin.
+Or, login as an admin.
+Logging in as an admin gives features like an admin dashboard and the ability to add books.
 
 Admin Login:
 
